@@ -43,13 +43,6 @@ def count_clicks(token, link):
 
     return response.json()
 
-    try:
-        clicks_count = response.json()['response']['short_url']['views']
-    except KeyError:
-        return ("Ошибка", response.json()["error"])
-    else:
-        return clicks_count
-
 
 def main():
     load_dotenv()
@@ -67,3 +60,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+
