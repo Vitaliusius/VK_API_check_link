@@ -13,7 +13,7 @@ def is_shorten_link(token, url):
     response = requests.post('https://api.vk.ru/method/utils.getLinkStats', params=payload)
     response.raise_for_status()
 
-    return response.json()
+    return 'error' not in response.json()
 
 
 def shorten_link(token, url):
@@ -47,15 +47,15 @@ def main():
     token = os.environ['VK_SERVICE_KEY']
     url = input('Введите ссылку: ')
     try:
-        if 'error' not in is_shorten_link(token, url):
+        if is_shorten_link(token, url):
             print('Количество кликов: ', count_clicks(token, urlparse(url).path[1:]))
         else:
             print('Короткая ссылка: ', shorten_link(token, url))
+    except KeyError:
+        print('Ошибка')
     except IndexError:
         print('Количество кликов: 0')
-    except KeyError:
-        print(is_shorten_link(token, url)['error'])
-
+   
 
 if __name__ == '__main__':
     main()
